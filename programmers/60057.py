@@ -10,15 +10,6 @@ def countSame(s, unitNum):
     return s, unitCount, len(unitS)
 
 
-def getDigit(number):
-    digit = 1
-    while True:
-        if number < 10:
-            return digit
-        number /= 10
-        digit += 1
-
-
 def solution(s):
     minLen = len(s)
     for unitNum in range(1, len(s)):
@@ -33,6 +24,7 @@ def solution(s):
             if unitCount == 1:
                 resultLength += unitSLen
             else:
-                resultLength += unitSLen + getDigit(unitCount)  # 1이 아닐수
+                resultLength += unitSLen + len(str(unitCount))
         print(unitNum, resultLength)
     return minLen
+
