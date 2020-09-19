@@ -1,0 +1,66 @@
+import math
+import sys
+
+sys.setrecursionlimit(10 ** 8)
+
+
+def calculate(L):
+    # 모든 숫자가 같을때
+    if min(L) == max(L):
+        return 1
+    # 1씩 단조 증감
+    allInc = True
+    allDec = True
+    for i in range(len(L) - 1):
+        if L[i + 1] - L[i] != 1:
+            allInc = False
+        if L[i + 1] - L[i] != -1:
+            allDec = False
+    if allInc or allDec:
+        return 2
+    # 번갈아가며
+    num0 = L[0]
+    num1 = L[1]
+    num2 = L[2]
+    if num0 == num2 and len(L) == 3:
+        return 4
+    if len(L) == 4:
+        num3 = L[3]
+        if num0 == num2 and num1 == num3:
+            return 4
+    if len(L) == 5:
+        num3 = L[3]
+        num4 = L[4]
+        if num0 == num2 == num4 and num1 == num3:
+            return 4
+    # 등차수열
+    gapNums = True
+    for i in range(len(L) - 1):
+        if i == 0:
+            gap = L[i + 1] - L[i]
+        if L[i + 1] - L[i] != gap:
+            gapNums = False
+    if gapNums:
+        return 5
+    return 10
+
+
+def pi(L):
+    if len(L) < 3:
+        return math.inf
+    if len(L) in [3, 4, 5]:
+        return calculate(L)
+    result1 = pi(L[3:]) + calculate(L[:3])
+    result2 = pi(L[4:]) + calculate(L[:4])
+    result3 = pi(L[5:]) + calculate(L[:5])
+    return min(result1, result2, result3)
+
+
+c = int(input())
+for case in range(c):
+    num = input().replace(" ", "")
+    numL = [int(x) for x in list(num)]
+    print(pi(numL))
+
+# RTE
+
